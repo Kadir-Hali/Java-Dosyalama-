@@ -1,0 +1,50 @@
+package pkgfinal;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+public class ornek5 {
+ public static String veri_alisi(){
+        System.out.print("Öğrencinizin Numarasını Giriniz:");
+        Scanner scn = new Scanner(System.in);
+        String veri = scn.nextLine();
+        return  veri;
+    }
+    public static boolean kontrol(String satir, String no){
+        boolean sonuc = false;
+        String[] kisim = satir.split(";", 4);
+        if(kisim[1].equals(no)){
+            sonuc = true;
+        }
+        return sonuc;
+    }
+    public static void main(String[] args) {
+        try {
+            String no = veri_alisi();
+            String veriler = null;
+            boolean veri = false;
+
+            FileReader rd = new FileReader("D:\\Ogrenciler.txt");
+            try(BufferedReader bufferedReader =new BufferedReader(rd)){
+
+                String line = bufferedReader.readLine();
+                while(line != null) {
+                    veri = kontrol(line, no);
+                    if(veri == true){
+                        veriler = line;
+                        break;
+                    }
+                    line = bufferedReader.readLine();
+                }
+            }
+            if(veri == true){
+                String[] kisim = veriler.split(";", 4);
+                System.out.println(kisim[0]+"'nın "+"Sözel puanı "+kisim[3]+"'dür.");
+            }else{
+                System.out.println("Öğrenci Bilgisi Bulunamadı");
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+}
